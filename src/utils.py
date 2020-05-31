@@ -213,5 +213,5 @@ class TrainDetails:
             os.remove('{}/metric'.format(self.details_path))
 
 
-learning_rate = CustomSchedule(param.D_MODEL, warmup_steps=2000)
+learning_rate = CustomSchedule(param.D_MODEL, warmup_steps=4000)
 optimizer = tf.keras.optimizers.Adam(learning_rate, beta_1=0.9, beta_2=0.98, epsilon=1e-9)

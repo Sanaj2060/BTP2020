@@ -112,6 +112,8 @@ def val_step(val_dataset):
 
         if (i + 1) % (100) == 0:
             loss, cer, wer = val_perf.result()
+            # save metrics
+       	    #train_details.save_metric('{:.4f}, {:.4f}, {:.4f}, {:.4f}'.format(train_loss.result(), v_loss, cer, wer))
             print ('\tValidation update\t Loss: {:.2f}\tWord acc: {:.2f}\tChar acc: {:.2f}'.format(loss, 1 - wer, 1 - cer))
     return val_perf.result()
 
@@ -167,12 +169,16 @@ if __name__ == '__main__':
         if not cl_args.no_validate:
             print('\nValidating...') 
             v_loss, cer, wer = val_step(val_dataset)
+            #Add saving
+            f_graph = open("records/active/graph","a")
+            f_graph.write('{:.4f},{:.4f},{:.4f},{:.4f}\n'.format(train_loss.result(), v_loss, cer, wer))
+            f_graph.close()
             print ('\nEpoch: {}\ttrain_loss: {:.4f}\tval_loss  : {:.4f}\t'.format(epoch + 1, train_loss.result(), v_loss))
         else:
             v_loss, cer, wer = -0.0, -0.0, -0.0        
 
         # save metrics
-        train_details.save_metric('{:.4f}, {:.4f}, {:.4f}, {:.4f}'.format(train_loss.result(), v_loss, cer, wer))
+        #train_details.save_metric('{:.4f}, {:.4f}, {:.4f}, {:.4f}'.format(train_loss.result(), v_loss, cer, wer))
 
         #  Saving checkpoint if the loss improves
         if not cl_args.no_validate:
